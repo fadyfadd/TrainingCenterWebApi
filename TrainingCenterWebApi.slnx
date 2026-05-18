@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="DataAccessLayer/DataAccessLayer.csproj" />
+  <Project Path="TestProject/TestProject.csproj" Id="7affcd10-645f-4528-9747-e0a4986e2ed9" />
   <Project Path="TrainingCenterWebApi/TrainingCenterWebApi.csproj" />
 </Solution>
