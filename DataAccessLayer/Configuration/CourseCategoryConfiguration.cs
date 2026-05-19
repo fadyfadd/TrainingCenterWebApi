@@ -7,17 +7,17 @@ using System.Text;
 
 namespace DataAccessLayer.Configuration
 {
-    internal class CourseCategoryConfiguration
+    internal class CourseCategoryConfiguration : IEntityTypeConfiguration<CourseCategory>
     {
         public void Configure(EntityTypeBuilder<CourseCategory> builder)
         {
-             builder.ToTable("CourseCategories");
+             builder.ToTable("courses_categories");
              builder.HasKey(c => c.Id);
 
-             builder.Property(c => c.Id)
+             builder.Property(c => c.Id).HasColumnName("id")
                 .HasDefaultValueSql("nextval('\"CourseCategorySequence\"')");
 
-             builder.Property(c => c.Name)
+             builder.Property(c => c.Name).HasColumnName("name")
                 .IsRequired()
                 .HasMaxLength(100);
         }

@@ -8,14 +8,17 @@ namespace DataAccessLayer.Configuration
     {
         public void Configure(EntityTypeBuilder<Course> builder)
         {
-            builder.ToTable("Courses");
+            builder.ToTable("courses");
 
             builder.HasKey(c => c.Id);
 
-            builder.Property(c => c.Id)
+            builder.Property(c => c.Id).HasColumnName("id")
                 .HasDefaultValueSql("nextval('\"CourseSequence\"')");
 
-            builder.Property(c => c.Title)
+            builder.Property(c=>c.CourseCategoryId).HasColumnName("course_category_id")
+                .IsRequired();
+
+            builder.Property(c => c.Title).HasColumnName("title")
                 .IsRequired()
                 .HasMaxLength(200);
 
