@@ -15,7 +15,7 @@ namespace DataAccessLayer.Configuration
              builder.HasKey(c => c.Id);
 
              builder.Property(c => c.Id).HasColumnName("id")
-                .HasDefaultValueSql("nextval('\"CourseCategorySequence\"')");
+                .HasDefaultValueSql("nextval('\"course_category_sequence\"')");
 
              builder.Property(c => c.Name).HasColumnName("name")
                 .IsRequired()

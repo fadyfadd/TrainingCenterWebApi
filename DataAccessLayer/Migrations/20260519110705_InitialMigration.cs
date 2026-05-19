@@ -20,6 +20,9 @@ namespace DataAccessLayer.Migrations
                 name: "CourseSequence",
                 startValue: 5000L);
 
+            migrationBuilder.CreateSequence<int>(
+                name: "StudentSequence");
+
             migrationBuilder.CreateTable(
                 name: "application_roles",
                 columns: table => new
@@ -73,6 +76,21 @@ namespace DataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_courses_categories", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "students",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"StudentSequence\"')"),
+                    first_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    last_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    email = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    enrolled_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_students", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -265,6 +283,9 @@ namespace DataAccessLayer.Migrations
                 name: "courses");
 
             migrationBuilder.DropTable(
+                name: "students");
+
+            migrationBuilder.DropTable(
                 name: "application_roles");
 
             migrationBuilder.DropTable(
@@ -278,6 +299,9 @@ namespace DataAccessLayer.Migrations
 
             migrationBuilder.DropSequence(
                 name: "CourseSequence");
+
+            migrationBuilder.DropSequence(
+                name: "StudentSequence");
         }
     }
 }

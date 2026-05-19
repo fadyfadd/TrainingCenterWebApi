@@ -31,19 +31,23 @@ namespace DataAccessLayer
             builder.Entity<IdentityUserLogin<int>>(b => b.ToTable("application_user_logins"));
             builder.Entity<IdentityUserToken<int>>(b => b.ToTable("application_user_tokens"));
 
-            builder.HasSequence<int>("CourseCategorySequence")
+            builder.HasSequence<int>("course_category_sequence")
              .StartsAt(1000)
              .IncrementsBy(1);
-            
-            builder.HasSequence<int>("CourseSequence")
+
+            builder.HasSequence<int>("course_sequence")
                 .StartsAt(5000)
                 .IncrementsBy(1);
 
+            builder.HasSequence<int>("student_sequence")
+           .StartsAt(1)
+           .IncrementsBy(1);
+
             builder.ApplyConfigurationsFromAssembly(typeof(MainDataBaseContext).Assembly);
         }
-        public MainDataBaseContext(DbContextOptions<MainDataBaseContext> options): base(options)
+        public MainDataBaseContext(DbContextOptions<MainDataBaseContext> options) : base(options)
         {
-          
+
         }
     }
 }

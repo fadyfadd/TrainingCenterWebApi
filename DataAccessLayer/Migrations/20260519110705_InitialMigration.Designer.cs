@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(MainDataBaseContext))]
-    [Migration("20260519105103_InitialMigration")]
+    [Migration("20260519110705_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -30,6 +30,8 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.HasSequence<int>("CourseSequence")
                 .StartsAt(5000L);
+
+            modelBuilder.HasSequence<int>("StudentSequence");
 
             modelBuilder.Entity("DataAccessLayer.Entities.ApplicationRole", b =>
                 {
@@ -177,6 +179,43 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("courses_categories", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Entities.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("nextval('\"StudentSequence\"')");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("email");
+
+                    b.Property<DateTime>("EnrolledAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("enrolled_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("first_name");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("last_name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("students", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
