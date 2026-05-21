@@ -25,7 +25,7 @@ namespace TrainingCenterWebApi.Services
 
         public async Task<List<CourseDto>> GetCoursesEnrollment()
         {
-            var courses = await dataContext.Courses.Include(a => a.Students).ToListAsync();
+            var courses = await dataContext.Courses.Include(a => a.Students).Include(a => a.CourseCategory).ToListAsync();
             List<CourseDto> output = new List<CourseDto>();
 
              foreach (var course in courses) {

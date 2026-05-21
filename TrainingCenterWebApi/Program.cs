@@ -4,6 +4,7 @@ using DataAccessLayer.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrainingCenterWebApi;
+using TrainingCenterWebApi.Infrastructure;
 using TrainingCenterWebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +24,10 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<RequestProfilingFilter>();
+});
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddAutoMapper(cfg => { }, typeof(DefaultProfile).Assembly);
 
@@ -39,23 +43,23 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.Configure<GeneralSettings>(configuration.GetSection(GeneralSettings.sectionName));
-//builder.Services.AddOpenApi();
 var app = builder.Build();
- 
+
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //app.MapOpenApi();
 }
 
-app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseCors(MyAllowSpecificOrigins);
+app.UseAuthentication();
+app.UseMiddleware<MyCustomMiddleware>();
 app.UseAuthorization();
-
 app.MapControllers();
+
 
 app.Run();
