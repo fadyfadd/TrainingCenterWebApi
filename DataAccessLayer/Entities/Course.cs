@@ -12,7 +12,7 @@ namespace DataAccessLayer.Entities
         public int CourseCategoryId { get; set; }
 
         public CourseCategory CourseCategory { get; set; }
-        public ICollection<Student> Students { get; set; } = new HashSet<Student>();
+        public ICollection<Student> Students { get; set; } 
 
     }
 }

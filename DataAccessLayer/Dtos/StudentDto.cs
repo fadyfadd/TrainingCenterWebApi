@@ -9,6 +9,6 @@ public class StudentDto
     public string? LastName { get; set; }
     public string? Email { get; set; }
     public DateTime? EnrolledAt { get; set; }
-    public ICollection<CourseDto>? Courses { get; set; } = new HashSet<CourseDto>();
+    public List<CourseDto>? Courses { get; set; } = new();
 
 }

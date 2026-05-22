@@ -4,6 +4,7 @@ using DataAccessLayer.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrainingCenterWebApi;
+using TrainingCenterWebApi.Infrastructure;
 using TrainingCenterWebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,9 +44,8 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.Configure<GeneralSettings>(configuration.GetSection(GeneralSettings.sectionName));
-//builder.Services.AddOpenApi();
 var app = builder.Build();
- 
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -53,12 +53,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseCors(MyAllowSpecificOrigins);
+app.UseAuthentication();
+app.UseMiddleware<MyCustomMiddleware>();
 app.UseAuthorization();
-
 app.MapControllers();
+
 
 app.Run();

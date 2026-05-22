@@ -3,6 +3,7 @@ using DataAccessLayer;
 using DataAccessLayer.Dtos;
 using DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+ 
 
 namespace TrainingCenterWebApi.Services
 {
@@ -91,6 +92,22 @@ namespace TrainingCenterWebApi.Services
             return res;
 
 
+        }
+
+        public async Task<List<CourseDto>> GetCoursesEnrollment()
+        {
+            var courses = await dataContext.Courses.Include(a => a.Students).Include(a => a.CourseCategory).ToListAsync();
+            List<CourseDto> output = new List<CourseDto>();
+
+             foreach (var course in courses) {
+                var courseDto = mapper.Map<CourseDto>(course);
+                var studentDtos = mapper.Map<List<StudentDto>>(course.Students);
+                courseDto.Students.AddRange(studentDtos);
+                output.Add(courseDto);
+            }
+
+            return output; 
+           
         }
     }
 }
