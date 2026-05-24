@@ -20,9 +20,6 @@ namespace DataAccessLayer
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
-            base.OnModelCreating(builder);
-
             base.OnModelCreating(builder);
 
             builder.Entity<ApplicationUser>(b => b.ToTable("application_users"));
