@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TrainingCenterWebApi.Controllers
 {
-   
+
     public class AdminController : ApiBaseController
     {
     }
