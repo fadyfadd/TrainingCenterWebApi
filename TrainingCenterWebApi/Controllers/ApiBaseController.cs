@@ -7,6 +7,6 @@ namespace TrainingCenterWebApi.Controllers
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
-       
+
     }
 }

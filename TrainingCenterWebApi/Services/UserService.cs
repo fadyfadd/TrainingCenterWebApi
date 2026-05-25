@@ -58,4 +58,35 @@ public class UserService
 
     }
 
+    public async Task<JwtTokenDto> Login(LoginDto loginDto)
+    {
+        var user = await userManager.FindByNameAsync(loginDto.UserName);
+
+        if (user == null)
+        {
+            throw new BusinessException("4455ebd2", "Invalid Credentials", null, null);
+        }
+        var passwordValid = await this.userManager.CheckPasswordAsync(user, loginDto.Password);
+
+        if (!passwordValid)
+        {
+            throw new BusinessException("4455ebd2", "Invalid Credentials", null, null);
+        }
+
+        var userDto = mapper.Map<ApplicationUserDto>(user);
+        var student = dbContext.Students.FirstOrDefault(s => s.UserId == user.Id);
+        if (student != null)
+        {
+            userDto.Student = mapper.Map<StudentDto>(student);
+        }
+        return new JwtTokenDto
+        {
+            Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            Expiration = DateTime.UtcNow.AddHours(1),
+            FirstName = userDto.Student?.FirstName,
+            LastName = userDto.Student.LastName
+        };
+    }
+
+
 }
