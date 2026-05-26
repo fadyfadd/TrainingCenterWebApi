@@ -5,6 +5,7 @@ using DataAccessLayer.Dtos;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Exceptions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace TrainingCenterWebApi.Services;
 
@@ -22,7 +23,28 @@ public class UserService
         this.dbContext = dataContext;
     }
 
-    public async Task<ApplicationUserDto> RegisterUser(ApplicationUserDto applicationUserDto)
+    public async Task<ApplicationUserDto> DeleteStudent(int userId)
+    {
+
+        var user = await userManager.FindByIdAsync(userId.ToString());
+        var student = await dbContext.Students.Where(s => s.UserId == userId).FirstOrDefaultAsync(); 
+         
+
+        if (student == null)
+            throw new BusinessException("76b2bea7", "Student Not Found.", null, null);
+
+        await userManager.DeleteAsync(user); 
+
+        var res = mapper.Map<ApplicationUserDto>(user);
+        var studentDto = mapper.Map<StudentDto>(student);
+        res.PlainPassword = "";
+        res.Student = studentDto;
+
+        return res;
+
+    }
+
+    public async Task<ApplicationUserDto> RegisterStudent(ApplicationUserDto applicationUserDto)
     {
 
         using var transaction = await dbContext.Database.BeginTransactionAsync();
@@ -40,9 +62,8 @@ public class UserService
             .GroupBy(e => e.Code)
             .ToDictionary(
                 g => g.Key,
-                g => g.Select(e => e.Description).ToArray()
-);
-            throw new BusinessException("4455ebd1", "User registration failed.", null, errors);
+                g => g.Select(e => e.Description).ToArray());
+            throw new BusinessException("4455ebd1", "User Registration Failed.", null, errors);
         }
 
         student.UserId = applicationUser.Id;
@@ -55,6 +76,46 @@ public class UserService
         res.Student = studentDto;
 
         await transaction.CommitAsync();
+        return res;
+
+    }
+
+    public async Task<ApplicationUserDto> UpdateStudentEmail(ApplicationUserDto applicationUserDto)
+    {
+
+        var user = await userManager.FindByNameAsync(applicationUserDto.UserName);
+        user.Email = applicationUserDto.Email;
+        var result = await userManager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            var errors = result.Errors
+            .GroupBy(e => e.Code)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(e => e.Description).ToArray());
+            throw new BusinessException("4455ebd1", "Email Modification Failed.", null, errors);
+        }
+
+
+        var res = mapper.Map<ApplicationUserDto>(user);
+
+        return res;
+
+    }
+
+    public async Task<StudentDto> UpdateStudent(StudentDto studentDto)
+    {
+
+        var student = await dbContext.Students.FindAsync(studentDto.Id);
+
+        student.FirstName = studentDto.FirstName;
+        student.LastName = studentDto.LastName;
+        student.EnrolledAt = studentDto.EnrolledAt.Value;
+        var res = mapper.Map<StudentDto>(student);
+
+        dbContext.SaveChanges();
+
         return res;
 
     }

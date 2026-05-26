@@ -16,7 +16,7 @@ namespace TrainingCenterWebApi.Controllers
 
         [HttpGet("/courses")]
         public async Task<ActionResult<List<CourseDto>>> GetAllCourses()
-        { 
+        {
             var res = await this.CourseService.GetAllCourses();
             return Ok(res);
         }

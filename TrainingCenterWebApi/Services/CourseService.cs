@@ -29,7 +29,7 @@ namespace TrainingCenterWebApi.Services
         {
             var courseCategory = new CourseCategory
             {
-                Name = courseCategoryDto.Name ?? string.Empty
+                Name = courseCategoryDto.Name
             };
 
             dataContext.CourseCategories.Add(courseCategory);
@@ -73,8 +73,14 @@ namespace TrainingCenterWebApi.Services
         public async Task<CourseDto> UpdateCourse(CourseDto courseDto)
         {
             var course = await dataContext.Courses.FindAsync(courseDto.Id);
-            var category = await dataContext.CourseCategories.FindAsync(courseDto.CourseCategoryId);
-            course.CourseCategory = category;
+
+            if (courseDto.CourseCategoryId != null)
+            {
+                //var category = await dataContext.CourseCategories.FindAsync(courseDto.CourseCategoryId);
+                course.CourseCategoryId = courseDto.CourseCategoryId.Value;
+
+            }
+
             course.Title = courseDto.Title;
             await dataContext.SaveChangesAsync();
             var res = mapper.Map<CourseDto>(course);
@@ -98,7 +104,7 @@ namespace TrainingCenterWebApi.Services
             var courses = await dataContext.Courses.Include(a => a.Students).Include(a => a.CourseCategory).ToListAsync();
             List<CourseDto> output = new List<CourseDto>();
             var res = mapper.Map<List<CourseWithStudentsDto>>(courses);
-           return res;
+            return res;
 
         }
     }
