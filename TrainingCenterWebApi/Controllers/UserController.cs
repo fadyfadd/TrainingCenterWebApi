@@ -16,21 +16,21 @@ namespace TrainingCenterWebApi.Controllers
             this.userService = userService; ;
         }
 
-        [HttpPost("/register/student")]
+        [HttpPost("register/student")]
         public async Task<ActionResult<ApplicationUserDto>> RegisterStudent([FromBody] ApplicationUserDto applicationUserDto)
         {
             await userService.RegisterStudent(applicationUserDto);
             return Ok(applicationUserDto);
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public async Task<ActionResult<JwtTokenDto>> LoginStudent([FromBody] LoginDto loginDto)
         {
             var jwtToken = await userService.Login(loginDto);
             return Ok(jwtToken);
         }
 
-        [HttpPut("/student/updateEmail")]
+        [HttpPut("student/updateEmail")]
         public async Task<ActionResult<ApplicationUserDto>> UpdateStudentEmail([FromBody] ApplicationUserDto applicationUserDto)
         {
             var res = await userService.UpdateStudentEmail(applicationUserDto);
@@ -38,14 +38,14 @@ namespace TrainingCenterWebApi.Controllers
 
         }
 
-        [HttpPut("/student/update")]
+        [HttpPut("student/update")]
         public async Task<ActionResult<ApplicationUserDto>> UpdateStudent([FromBody] StudentDto studentDto)
         {
             var res = await userService.UpdateStudent(studentDto);
             return Ok(res);
         }
 
-        [HttpDelete("/student/delete/{userId}")]
+        [HttpDelete("student/delete/{userId}")]
         public async Task<ActionResult<ApplicationUserDto>> DeleteStudent(int userId)
         {
             var res = await userService.DeleteStudent(userId);

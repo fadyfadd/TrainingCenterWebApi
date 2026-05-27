@@ -3,6 +3,7 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TrainingCenterWebApi;
 using TrainingCenterWebApi.Infrastructure;
 using TrainingCenterWebApi.Services;
@@ -42,7 +43,7 @@ builder.Services.AddDbContext<MainDataBaseContext>(options =>
     options.UseNpgsql(generalSettings.ConnectionString));
 
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => { options.User.RequireUniqueEmail = true; })
     .AddEntityFrameworkStores<MainDataBaseContext>()
     .AddDefaultTokenProviders();
 

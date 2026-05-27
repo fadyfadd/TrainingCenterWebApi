@@ -30,6 +30,10 @@ namespace DataAccessLayer
             builder.Entity<IdentityUserLogin<int>>(b => b.ToTable("application_user_logins"));
             builder.Entity<IdentityUserToken<int>>(b => b.ToTable("application_user_tokens"));
 
+            builder.Entity<ApplicationUser>()
+            .Property(u => u.Email)
+            .IsRequired();
+
             builder.HasSequence<int>("course_category_sequence")
              .StartsAt(1)
              .IncrementsBy(1);
