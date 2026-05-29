@@ -23,10 +23,10 @@ namespace TrainingCenterWebApi.Controllers
             return Ok(applicationUserDto);
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<JwtTokenDto>> LoginStudent([FromBody] LoginDto loginDto)
-        {
-            var jwtToken = await userService.Login(loginDto);
+        [HttpPost("student/login")]
+        public async Task<ActionResult<JwtTokenDto>> StudentLogin([FromBody] LoginDto loginDto)
+        { 
+            var jwtToken = await userService.StudentLogin(loginDto);
             return Ok(jwtToken);
         }
 
@@ -51,7 +51,6 @@ namespace TrainingCenterWebApi.Controllers
             var res = await userService.DeleteStudent(userId);
             return Ok(res);
         }
-    
-    
+
     }
 }

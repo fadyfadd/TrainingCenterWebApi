@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using AutoMapper;
 using DataAccessLayer;
 using DataAccessLayer.Dtos;
@@ -6,6 +7,8 @@ using DataAccessLayer.Entities;
 using DataAccessLayer.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using TrainingCenterWebApi.Infrastructure;
 
 namespace TrainingCenterWebApi.Services;
 
@@ -15,25 +18,31 @@ public class UserService
     private readonly UserManager<ApplicationUser> userManager;
     private readonly IMapper mapper;
     private readonly MainDataBaseContext dbContext;
+    private readonly JwtTokenServices jwtTokenServices;
+    private readonly GeneralSettings generalSettings;
 
-    public UserService(MainDataBaseContext dataContext, UserManager<ApplicationUser> userManager, IMapper mapper)
+    public UserService(MainDataBaseContext dataContext,
+    UserManager<ApplicationUser> userManager, IMapper mapper, JwtTokenServices tokenServices,
+    IOptions<GeneralSettings> generalSettings)
     {
         this.userManager = userManager;
         this.mapper = mapper;
         this.dbContext = dataContext;
+        this.jwtTokenServices = tokenServices;
+        this.generalSettings = generalSettings.Value;
     }
 
     public async Task<ApplicationUserDto> DeleteStudent(int userId)
     {
 
         var user = await userManager.FindByIdAsync(userId.ToString());
-        var student = await dbContext.Students.Where(s => s.UserId == userId).FirstOrDefaultAsync(); 
-         
+        var student = await dbContext.Students.Where(s => s.UserId == userId).FirstOrDefaultAsync();
+
 
         if (student == null)
             throw new BusinessException("76b2bea7", "Student Not Found.", null, null);
 
-        await userManager.DeleteAsync(user); 
+        await userManager.DeleteAsync(user);
 
         var res = mapper.Map<ApplicationUserDto>(user);
         var studentDto = mapper.Map<StudentDto>(student);
@@ -120,7 +129,7 @@ public class UserService
 
     }
 
-    public async Task<JwtTokenDto> Login(LoginDto loginDto)
+    public async Task<JwtTokenDto> StudentLogin(LoginDto loginDto)
     {
         var user = await userManager.FindByNameAsync(loginDto.UserName);
 
@@ -141,13 +150,21 @@ public class UserService
         {
             userDto.Student = mapper.Map<StudentDto>(student);
         }
-        return new JwtTokenDto
+        else
         {
-            Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-            Expiration = DateTime.UtcNow.AddHours(1),
-            FirstName = userDto.Student?.FirstName,
-            LastName = userDto.Student.LastName
-        };
+            throw new BusinessException("4455ebd2", "Invalid Credentials", null, null);
+        }
+
+        List<Claim> claims = new() {
+            new Claim(ClaimTypes.Name, loginDto.UserName),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, "Student"),               
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+        return jwtTokenServices.CreateToken(claims, generalSettings.JwtSettings.ExpiryInMinutes);
+
+   
     }
 
 

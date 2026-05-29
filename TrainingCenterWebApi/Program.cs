@@ -1,9 +1,11 @@
+using System.Text;
 using DataAccessLayer;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Mappers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using TrainingCenterWebApi;
 using TrainingCenterWebApi.Infrastructure;
 using TrainingCenterWebApi.Services;
@@ -24,10 +26,38 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    string secretKey = generalSettings.JwtSettings.Key;
+    var keyBytes = Encoding.UTF8.GetBytes(secretKey); 
 
-builder.Services.AddControllers().AddJsonOptions(options =>
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        // Automatically attaches your custom trimmer engine
+        ValidateIssuerSigningKey = true,
+
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+
+        //ValidateIssuer = true,
+        ValidIssuer = generalSettings.JwtSettings.Issuer,
+
+        //ValidateAudience = true,
+        ValidAudience = generalSettings.JwtSettings.Audience,
+
+        //ValidateLifetime = true,
+        //RequireExpirationTime = true,
+        //ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<RequestProfilingFilter>();
+})
+
+.AddJsonOptions(options =>
+    {
         options.JsonSerializerOptions.Converters.Add(new ReadyStringTrimmerConverter());
     }).ConfigureApiBehaviorOptions(options =>
     {
@@ -36,6 +66,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<JwtTokenServices>();
 
 builder.Services.AddAutoMapper(cfg => { }, typeof(DefaultProfile).Assembly);
 
