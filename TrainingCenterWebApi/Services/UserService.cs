@@ -129,7 +129,7 @@ public class UserService
 
     }
 
-    public async Task<JwtTokenDto> StudentLogin(LoginDto loginDto)
+    public async Task<JwtTokenDto> Login(LoginDto loginDto)
     {
         var user = await userManager.FindByNameAsync(loginDto.UserName);
 
@@ -158,14 +158,14 @@ public class UserService
         List<Claim> claims = new() {
             new Claim(ClaimTypes.Name, loginDto.UserName),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, "Student"),               
+            new Claim(ClaimTypes.Role, "Student"),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
-        var tokenDto =  jwtTokenServices.CreateToken(claims, generalSettings.JwtSettings.ExpiryInMinutes);
+        var tokenDto = jwtTokenServices.CreateToken(claims, generalSettings.JwtSettings.ExpiryInMinutes);
         tokenDto.FirstName = student.FirstName;
         tokenDto.LastName = student.LastName;
-        tokenDto.Role = UserRole.Student;   
+        tokenDto.Role = UserRole.Student;
 
         return tokenDto;
     }
