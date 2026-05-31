@@ -36,11 +36,12 @@
                 {
                     if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
                     {
+                        //Loggin the exception details for debugging purposes
                         context.Response.StatusCode = 500;
                         await context.Response.WriteAsJsonAsync(new { Message = ex.Message, StackTrace = ex.StackTrace });
                     }
                     else
-                    {
+                    {   //Loggin the exception details for debugging purposes
                         context.Response.StatusCode = 500;
                         await context.Response.WriteAsJsonAsync(new { Message = "An error occurred while processing your request." });
                     }
