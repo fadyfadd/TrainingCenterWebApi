@@ -1,3 +1,4 @@
+using DataAccessLayer;
 using DataAccessLayer.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,7 @@ namespace TrainingCenterWebApi.Controllers
             this.CourseService = courseService;
         }
 
-        //[Authorize(Roles = "Student")]
+        [Authorize(Roles = nameof(UserRole.Administrator))]
         [HttpGet("courses")]
         public async Task<ActionResult<List<CourseDto>>> GetAllCourses()
         {

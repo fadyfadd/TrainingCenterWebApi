@@ -153,7 +153,7 @@ public class UserService
             List<Claim> claims = new() {
             new Claim(ClaimTypes.Name, loginDto.UserName),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, UserRole.Student.ToString()),
+            new Claim(ClaimTypes.Role, nameof(UserRole.Student)),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
@@ -174,7 +174,7 @@ public class UserService
                 List<Claim> claims = new() {
                 new Claim(ClaimTypes.Name, loginDto.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, UserRole.Administrator.ToString()),
+                new Claim(ClaimTypes.Role, nameof(UserRole.Administrator)),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                 };
 
