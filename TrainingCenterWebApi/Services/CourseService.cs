@@ -20,11 +20,25 @@ namespace TrainingCenterWebApi.Services
 
         public async Task<List<CourseDto>> GetAllCourses()
         {
-            var courses = await dataContext.Courses.Include(a => a.CourseCategory).ToListAsync();
+            var courses = await dataContext.Courses.Include(a => a.CourseCategory).OrderBy(c=>c.Id).ToListAsync();
             var res = mapper.Map<List<CourseDto>>(courses);
             return res;
         }
 
+        public async Task<CourseDto> GetCourse(int id)
+        {
+            var course = await dataContext.Courses.Include((c)=>c.CourseCategory).FirstOrDefaultAsync(c=>c.Id == id);
+            var res = mapper.Map<CourseDto>(course);
+            return res;
+        }
+
+        public async Task<List<CourseCategoryDto>> GetAllCategories()
+        {
+            var categories = await dataContext.CourseCategories.ToListAsync();
+            var dtos = mapper.Map<List<CourseCategoryDto>>(categories);
+            return dtos;
+        }
+        
         public async Task<CourseCategoryDto> AddCategory(CourseCategoryDto courseCategoryDto)
         {
             var courseCategory = new CourseCategory

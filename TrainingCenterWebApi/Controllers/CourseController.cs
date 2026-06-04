@@ -16,7 +16,7 @@ namespace TrainingCenterWebApi.Controllers
         }
 
         [Authorize(Roles = nameof(UserRole.Administrator))]
-        [HttpGet("courses")]
+        [HttpGet("all")]
         public async Task<ActionResult<List<CourseDto>>> GetAllCourses()
         {
             var res = await this.CourseService.GetAllCourses();
@@ -51,24 +51,40 @@ namespace TrainingCenterWebApi.Controllers
             return Ok(res);
         }
 
-        [HttpPost("course/add")]
+        [HttpPost("add")]
         public async Task<ActionResult<CourseDto>> AddCourse([FromBody] CourseDto courseDto)
         {
             var res = await this.CourseService.AddCourse(courseDto);
             return Ok(res);
         }
 
-        [HttpPut("course/update")]
+        [HttpPut("update")]
         public async Task<ActionResult<CourseDto>> UpdateCourse([FromBody] CourseDto courseDto)
         {
             var res = await this.CourseService.UpdateCourse(courseDto);
             return res;
         }
 
-        [HttpDelete("/ourse/delete/{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<ActionResult<CourseDto>> DeleteCourse(int id)
         {
             var res = await this.CourseService.DeleteCourse(id);
+            return Ok(res);
+        }
+
+        
+        [HttpGet("categories")]
+        public async Task<ActionResult<List<CourseCategoryDto>>> GetAllCategories(int id)
+        {
+            var res = await CourseService.GetAllCategories(); 
+            return Ok(res);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CourseDto>> GetCourse(int id)
+        {
+            var res = await CourseService.GetCourse(id);
             return Ok(res);
         }
 
