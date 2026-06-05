@@ -1,12 +1,9 @@
-﻿using DataAccessLayer;
+﻿using Api.Services;
+using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Transactions;
-using TrainingCenterWebApi.Services;
 
 namespace TestProject.TrainingCenterWebApi.Services
 {

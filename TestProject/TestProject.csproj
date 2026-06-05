@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
-    <ProjectReference Include="..\TrainingCenterWebApi\TrainingCenterWebApi.csproj" />
+    <ProjectReference Include="..\TrainingCenterWebApi\Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>

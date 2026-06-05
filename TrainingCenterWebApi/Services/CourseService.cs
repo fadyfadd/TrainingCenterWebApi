@@ -5,7 +5,7 @@ using DataAccessLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace TrainingCenterWebApi.Services
+namespace Api.Services
 {
     public class CourseService
     {

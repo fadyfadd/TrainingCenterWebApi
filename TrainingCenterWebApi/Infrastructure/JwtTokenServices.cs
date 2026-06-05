@@ -6,7 +6,7 @@ using DataAccessLayer.Dtos;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace TrainingCenterWebApi.Infrastructure;
+namespace Api.Infrastructure;
 
 public class JwtTokenServices
 {

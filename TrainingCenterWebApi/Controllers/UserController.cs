@@ -1,14 +1,14 @@
-﻿using DataAccessLayer.Dtos;
+﻿using Api.Services;
+using DataAccessLayer.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using TrainingCenterWebApi.Services;
-
-namespace TrainingCenterWebApi.Controllers
+ 
+namespace Api.Controllers
 {
 
     public class UserController : ApiBaseController
     {
 
-        private readonly UserService userService;
+        private readonly Services.UserService userService;
 
         public UserController(UserService userService)
         {

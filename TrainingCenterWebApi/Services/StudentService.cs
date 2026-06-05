@@ -1,7 +1,7 @@
  using AutoMapper;
 using DataAccessLayer;
 
-namespace TrainingCenterWebApi.Services;
+namespace Api.Services;
 
 public class StudentService
 {

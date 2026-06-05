@@ -1,7 +1,8 @@
- 
-using TrainingCenterWebApi.Services;
 
-namespace TrainingCenterWebApi.Controllers;
+
+using Api.Services;
+
+namespace Api.Controllers;
 
 public class StudentController
 {

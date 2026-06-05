@@ -1,10 +1,10 @@
+using Api.Services;
 using DataAccessLayer;
 using DataAccessLayer.Dtos;
 using Microsoft.AspNetCore.Authorization;
  using Microsoft.AspNetCore.Mvc;
-using TrainingCenterWebApi.Services;
-
-namespace TrainingCenterWebApi.Controllers
+ 
+namespace Api.Controllers
 {
     public class CourseController : ApiBaseController
     {

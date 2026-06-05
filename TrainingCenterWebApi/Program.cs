@@ -1,4 +1,7 @@
 using System.Text;
+using Api;
+using Api.Infrastructure;
+using Api.Services;
 using DataAccessLayer;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Mappers;
@@ -7,9 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using TrainingCenterWebApi;
-using TrainingCenterWebApi.Infrastructure;
-using TrainingCenterWebApi.Services;
+ 
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";

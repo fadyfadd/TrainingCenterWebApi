@@ -1,4 +1,4 @@
-﻿namespace TrainingCenterWebApi
+﻿namespace Api
 {
 
     public class JwtSettings

@@ -1,4 +1,5 @@
  using System.Security.Claims;
+using Api.Infrastructure;
 using AutoMapper;
 using DataAccessLayer;
 using DataAccessLayer.Dtos;
@@ -7,9 +8,9 @@ using DataAccessLayer.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using TrainingCenterWebApi.Infrastructure;
+ 
 
-namespace TrainingCenterWebApi.Services;
+namespace Api.Services;
 
 public class UserService
 {

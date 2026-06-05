@@ -1,5 +1,5 @@
  
-namespace TrainingCenterWebApi.Controllers
+namespace Api.Controllers
 {
 
     public class AdminController : ApiBaseController

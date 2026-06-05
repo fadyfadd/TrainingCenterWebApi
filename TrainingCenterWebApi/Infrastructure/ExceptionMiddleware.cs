@@ -1,4 +1,4 @@
-﻿namespace TrainingCenterWebApi.Infrastructure
+﻿namespace Api.Infrastructure
 {
     using DataAccessLayer.Exceptions;
     using Microsoft.AspNetCore.Http;
