@@ -1,3 +1,11 @@
+TRUNCATE TABLE application_users, administrators, students, courses_categories, courses, courses_students RESTART IDENTITY CASCADE;
+
+
+ALTER SEQUENCE course_category_sequence RESTART WITH 1;
+ALTER SEQUENCE course_sequence RESTART WITH 1;
+ALTER SEQUENCE student_sequence RESTART WITH 1;
+ALTER SEQUENCE administarator_sequence RESTART WITH 1;
+ 
 INSERT INTO application_users ("UserName" , "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp", "ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", "AccessFailedCount") 
 VALUES ('ziad.achkar',  'ZIAD.ACHKAR', 'ziad.achkar@yahoo.com', 'ZIAD.ACHKAR@YAHOO.COM', true, 'AQAAAAIAAYagAAAAEFcJZk6icd6e/yHe6EFqhxtFsC1mTCl2d9b3UV2lM6ESDPkvjOrWHNKj37Vb+1O/Mw==', '3EZLB3M7NNPVXHBNJNOXAO52KQBXOPCD', 'F6E5D4C3-B2A1-0F9E-8D7C-6B5A4M3L2K1J', '03-897333', true, false, NULL, true, 0);
 
