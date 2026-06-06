@@ -1,7 +1,10 @@
 using AutoMapper;
 using Data;
 using Data.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Options;
+using Npgsql.Replication.PgOutput.Messages;
 
 namespace Api.Services;
 
@@ -17,6 +20,29 @@ public class StudentService
         this.generalSettings = generalSettings.Value;
     }
 
+
+    public async Task<DownloadFileDto> GetDocumentFile(int documentId)
+    {
+        var entity = await dataContext.StudentDocument.FindAsync(documentId);
+        var url = entity.DocumentUrl;
+        var name = entity.DocumentName;
+        var provider = new FileExtensionContentTypeProvider();
+
+        String contentType = "application/octet-stream";
+        Stream sourceStream = File.OpenRead(entity.DocumentUrl);
+
+        DownloadFileDto fileDto = new DownloadFileDto
+        {
+            FileName = name
+            ,
+            ContentType = contentType
+            ,
+            ContentStream = sourceStream
+        };
+
+        return fileDto;
+
+    }
 
     public async Task<StudentDocumentDto> AddDocument(StudentDocumentDto studentDocumentDto, IFormFile file)
     {

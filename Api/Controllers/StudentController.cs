@@ -21,4 +21,18 @@ public class StudentController : ApiBaseController
         var addedDocument = await studentService.AddDocument(studentDocumentDto, file);
         return Ok(addedDocument);
     }
+
+    [HttpGet("download/{id}")]
+    public async Task<FileResult> DownloadDocument([FromRoute] int id)
+    {
+        var file = await studentService.GetDocumentFile(id);
+       
+        Response.Headers.Append("Content-Disposition", $"attachment;"); 
+
+        return File(
+            file.ContentStream,
+            file.ContentType,
+            file.FileName);
+
+    }
 }
