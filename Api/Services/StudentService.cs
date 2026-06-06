@@ -20,6 +20,20 @@ public class StudentService
         this.generalSettings = generalSettings.Value;
     }
 
+    public async Task DeleteDocument(int documentId)
+    {
+        var entity = await dataContext.StudentDocument.FindAsync(documentId);
+        var documentUrl = entity.DocumentUrl;
+        File.Delete(documentUrl);
+
+        if (entity != null)
+        {
+            dataContext.StudentDocument.Remove(entity);
+            await dataContext.SaveChangesAsync();
+        }
+
+
+    }
 
     public async Task<DownloadFileDto> GetDocumentFile(int documentId)
     {

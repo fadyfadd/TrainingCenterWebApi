@@ -35,4 +35,11 @@ public class StudentController : ApiBaseController
             file.FileName);
 
     }
+
+    [HttpDelete("deleteDocument/{id}")]
+    public async Task<IActionResult> DeleteDocument([FromRoute] int id)
+    {
+        await studentService.DeleteDocument(id);
+        return NoContent();
+    }   
 }
