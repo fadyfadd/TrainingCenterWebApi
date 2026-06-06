@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="DataAccessLayer/Data.csproj" />
-  <Project Path="TestProject/Test.csproj" />
-  <Project Path="TrainingCenterWebApi/Api.csproj" />
+  <Project Path="api/Api.csproj" />
+  <Project Path="Data/Data.csproj" />
+  <Project Path="test/Test.csproj" />
 </Solution>
