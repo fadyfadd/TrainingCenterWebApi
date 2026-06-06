@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DataAccessLayer.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(MainDataBaseContext))]
     partial class MainDataBaseContextModelSnapshot : ModelSnapshot
@@ -49,7 +49,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("courses_students", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Dtos.StudentDocuments", b =>
+            modelBuilder.Entity("Data.Dtos.StudentDocument", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,7 +77,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentDocuments");
+                    b.ToTable("student_documents", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entities.Administrator", b =>
@@ -415,7 +415,7 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Data.Dtos.StudentDocuments", b =>
+            modelBuilder.Entity("Data.Dtos.StudentDocument", b =>
                 {
                     b.HasOne("Data.Entities.Student", "Student")
                         .WithMany("Documents")

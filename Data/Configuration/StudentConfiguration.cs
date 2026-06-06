@@ -1,5 +1,5 @@
 ﻿using Data.Entities;
- using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
@@ -29,7 +29,7 @@ namespace Data.Configuration
                 .HasColumnName("last_name")
                 .IsRequired()
                 .HasMaxLength(50);
- 
+
             builder.Property(s => s.EnrolledAt)
                 .HasColumnName("enrolled_at")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -60,12 +60,12 @@ namespace Data.Configuration
 
                            j.Property("StudentId").HasColumnName("student_id");
                            j.Property("CourseId").HasColumnName("course_id");
-                       
+
                            j.HasKey("StudentId", "CourseId");
                        });
 
 
-           
+
         }
     }
 }

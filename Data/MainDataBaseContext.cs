@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using Data.Dtos;
+using Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ namespace Data
         public DbSet<CourseCategory> CourseCategories { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Student> Students { get; set; }
-
+        public DbSet<StudentDocument> StudentDocument { get; set; }
         public DbSet<Administrator> Administrators { get; set; }
 
 

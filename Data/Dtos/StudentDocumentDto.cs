@@ -5,6 +5,6 @@ namespace Data;
 
 public class StudentDocumentDto : BaseStudentDocumentDto
 {
-    public StudentDto Student {set; get;}
+    public StudentDto? Student {set; get;}
 
 }

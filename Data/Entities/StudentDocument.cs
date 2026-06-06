@@ -3,7 +3,7 @@ using Data.Entities;
 
 namespace Data.Dtos;
 
-public class StudentDocuments
+public class StudentDocument
 {
     public int Id { get; set; }
     public string DocumentName { get; set; }

@@ -4,19 +4,25 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DataAccessLayer.Migrations
+namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class fe4736826b5b483c8fe60a4340c20ba8 : Migration
+    public partial class _3b9f8d126e4a4c7b912f53e8a4d9c6b0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence<int>(
+                name: "administarator_sequence");
+
+            migrationBuilder.CreateSequence<int>(
                 name: "course_category_sequence");
 
             migrationBuilder.CreateSequence<int>(
                 name: "course_sequence");
+
+            migrationBuilder.CreateSequence<int>(
+                name: "student_document_sequence");
 
             migrationBuilder.CreateSequence<int>(
                 name: "student_sequence");
@@ -42,11 +48,9 @@ namespace DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FirstName = table.Column<string>(type: "text", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
                     PasswordHash = table.Column<string>(type: "text", nullable: true),
@@ -93,6 +97,27 @@ namespace DataAccessLayer.Migrations
                         name: "FK_application_role_claims_application_roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "application_roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "administrators",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"administarator_sequence\"')"),
+                    first_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    last_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    enrolled_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    user_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_administrators", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_administrators_application_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "application_users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -223,6 +248,27 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "student_documents",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false, defaultValueSql: "nextval('\"student_document_sequence\"')"),
+                    DocumentName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    DocumentUrl = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    UploadedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    StudentId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_student_documents", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_student_documents_students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "students",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "courses_students",
                 columns: table => new
                 {
@@ -245,6 +291,12 @@ namespace DataAccessLayer.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_administrators_user_id",
+                table: "administrators",
+                column: "user_id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_application_role_claims_RoleId",
@@ -294,6 +346,11 @@ namespace DataAccessLayer.Migrations
                 column: "course_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_student_documents_StudentId",
+                table: "student_documents",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_students_user_id",
                 table: "students",
                 column: "user_id",
@@ -303,6 +360,9 @@ namespace DataAccessLayer.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "administrators");
+
             migrationBuilder.DropTable(
                 name: "application_role_claims");
 
@@ -322,6 +382,9 @@ namespace DataAccessLayer.Migrations
                 name: "courses_students");
 
             migrationBuilder.DropTable(
+                name: "student_documents");
+
+            migrationBuilder.DropTable(
                 name: "application_roles");
 
             migrationBuilder.DropTable(
@@ -337,10 +400,16 @@ namespace DataAccessLayer.Migrations
                 name: "application_users");
 
             migrationBuilder.DropSequence(
+                name: "administarator_sequence");
+
+            migrationBuilder.DropSequence(
                 name: "course_category_sequence");
 
             migrationBuilder.DropSequence(
                 name: "course_sequence");
+
+            migrationBuilder.DropSequence(
+                name: "student_document_sequence");
 
             migrationBuilder.DropSequence(
                 name: "student_sequence");

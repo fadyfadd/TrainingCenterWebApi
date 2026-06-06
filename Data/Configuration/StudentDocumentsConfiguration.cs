@@ -5,10 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Configuration;
 
-public class StudentDocumentsConfiguration : IEntityTypeConfiguration<StudentDocuments>
+public class StudentDocumentConfiguration : IEntityTypeConfiguration<StudentDocument>
 {
-    public void Configure(EntityTypeBuilder<StudentDocuments> builder)
+    public void Configure(EntityTypeBuilder<StudentDocument> builder)
     {
+        builder.ToTable("student_documents");
+
+
         builder.HasKey(sd => sd.Id);
         builder.Property(sd => sd.Id)
                .HasColumnName("id")

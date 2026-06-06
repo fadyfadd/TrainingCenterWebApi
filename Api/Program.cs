@@ -73,7 +73,6 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization((options) =>
 {
-    Console.WriteLine("Authorization configuration executed");
 });
 builder.Services.AddControllers(options =>
 {
@@ -91,6 +90,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<JwtTokenServices>();
+builder.Services.AddScoped<StudentService>();
 
 builder.Services.AddAutoMapper(cfg => { }, typeof(DefaultProfile).Assembly);
 

@@ -26,7 +26,7 @@ public class DefaultProfile : Profile
         CreateMap<BaseApplicationUserDto, ApplicationUser>().ReverseMap();
         CreateMap<ApplicationUserDto, ApplicationUser>().ReverseMap();
 
-        CreateMap<BaseStudentDocumentDto, StudentDocuments>().ReverseMap();
-        CreateMap<StudentDocumentDto, StudentDocuments>().ReverseMap();
+        CreateMap<BaseStudentDocumentDto, StudentDocument>().ReverseMap();
+        CreateMap<StudentDocumentDto, StudentDocument>().ReverseMap();
     }
 }

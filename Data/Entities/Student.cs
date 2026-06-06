@@ -13,7 +13,7 @@ namespace Data.Entities
         public Int32 UserId { get; set; }
         public ApplicationUser User { get; set; }
         public ICollection<Course> Courses { get; set; }
-        public ICollection<StudentDocuments> Documents { get; set; }
+        public ICollection<StudentDocument> Documents { get; set; }
 
     }
 
