@@ -18,16 +18,16 @@ public class StudentController : ApiBaseController
     [HttpPost("addDocument")]
     public async Task<IActionResult> AddDocument([FromForm] StudentDocumentDto studentDocumentDto)
     {
-        var addedDocument = await studentService.AddDocument(studentDocumentDto , studentDocumentDto.File);
+        var addedDocument = await studentService.AddDocument(studentDocumentDto, studentDocumentDto.File);
         return Ok(addedDocument);
     }
 
-    [HttpGet("download/{id}")]
+    [HttpGet("downloadDocument/{id}")]
     public async Task<FileResult> DownloadDocument([FromRoute] int id)
     {
         var file = await studentService.GetDocumentFile(id);
-       
-        Response.Headers.Append("Content-Disposition", $"attachment;"); 
+
+        Response.Headers.Append("Content-Disposition", $"attachment;");
 
         return File(
             file.ContentStream,
@@ -48,5 +48,5 @@ public class StudentController : ApiBaseController
     {
         await studentService.DeleteDocument(id);
         return NoContent();
-    }   
+    }
 }
