@@ -2,6 +2,7 @@
 
 using Api.Services;
 using Data;
+using Data.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -41,6 +42,13 @@ public class StudentController : ApiBaseController
     {
         var documents = await studentService.GetAllDocumentsForStudent(studentId);
         return Ok(documents);
+    }
+
+    [HttpGet("getStudents")]
+    public async Task<ActionResult<List<StudentDto>>> GetStudents()
+    {
+        var student = await studentService.GetStudents();
+        return Ok(student);
     }
 
     [HttpDelete("deleteDocument/{id}")]

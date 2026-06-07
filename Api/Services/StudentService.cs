@@ -59,13 +59,18 @@ public class StudentService
 
     }
 
-
     public async Task<List<StudentDocumentDto>> GetAllDocumentsForStudent(int studentId)
     {
         List<StudentDocument> documents = await dataContext.StudentDocument.Where(d => d.StudentId == studentId).ToListAsync();
         return mapper.Map<List<StudentDocumentDto>>(documents);
     }
 
+    public async Task<List<StudentDto>> GetStudents()
+    {
+        var student = await dataContext.Students.OrderBy(s => s.LastName).ThenBy(s => s.FirstName).ToListAsync();
+        var res = mapper.Map<List<StudentDto>>(student);
+        return res;
+    }
 
     public async Task<StudentDocumentDto> AddDocument(StudentDocumentDto studentDocumentDto, IFormFile file)
     {
