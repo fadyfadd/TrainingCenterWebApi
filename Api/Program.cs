@@ -31,7 +31,7 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins(generalSettings.CorsAllowedOrigins)
                                 .AllowAnyHeader()
-                                .AllowAnyMethod();
+                                .AllowAnyMethod().WithExposedHeaders("Content-Disposition");
         });
 });
 
