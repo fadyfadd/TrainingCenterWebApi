@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using Serilog;
 
 
@@ -96,9 +97,35 @@ builder.Services.AddAutoMapper(cfg => { }, typeof(DefaultProfile).Assembly);
 
 builder.Services.AddDbContext<MainDataBaseContext>(options =>
     options.UseNpgsql(generalSettings.ConnectionString));
+ 
+ 
+ 
+builder.Services.AddSwaggerGen(options =>
+{
+    
+    options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme. Just paste your token directly below."
+    });
 
-
-builder.Services.AddSwaggerGen();
+    
+    options.AddSecurityRequirement(document =>
+    {
+        var requirement = new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecuritySchemeReference("bearer", document),
+                new List<string>()
+            }
+        };
+        return requirement;
+    });
+});
 
 builder.Services.Configure<GeneralSettings>(configuration.GetSection(GeneralSettings.sectionName));
 var app = builder.Build();
